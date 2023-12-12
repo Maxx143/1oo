@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -7,19 +8,32 @@ class Info {
 public:
     string name, year, add, dob;
     float marks;
-    long tel_no;
+    long long tel_no;
 
     void accept();
     void display();
 };
 
 void Info::accept() {
-    cout << "Enter the name: "; cin >> name;
-    cout << "Enter the address: "; cin >> add;
-    cout << "Enter the year: "; cin >> year;
-    cout << "Enter telephone number: "; cin >> tel_no;
-    cout << "Enter Marks: "; cin >> marks;
-    cout << "Enter date of birth: "; cin >> dob;
+    cout << "Enter the name: ";
+    getline(cin, name);
+
+    cout << "Enter the address: ";
+    getline(cin, add);
+
+    cout << "Enter the year: ";
+    getline(cin, year);
+
+    cout << "Enter telephone number: ";
+    cin >> tel_no;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter Marks: ";
+    cin >> marks;
+
+    cout << "Enter date of birth: ";
+    cin.ignore(); // Clear the buffer before using getline
+    getline(cin, dob);
 }
 
 void Info::display() {
@@ -47,7 +61,12 @@ int main() {
         cout << "\n5. Delete record";
         cout << "\n6. Exit";
         cout << "\nEnter your choice: ";
+        
         cin >> ch;
+        
+        // Clear the error state and ignore remaining characters
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (ch) {
             case 1:
@@ -77,7 +96,7 @@ int main() {
 
             case 4:
                 cout << "Enter the name to be searched: ";
-                cin >> searchName;
+                getline(cin, searchName);
 
                 for (int i = 0; i < n; i++) {
                     if (searchName == o[i].name) {
